@@ -1,0 +1,1 @@
+("renewable energy" OR "solar power" OR "wind power") AND ("merit-order effect" OR "price cannibalization" OR "energy-only market") AND ("missing money" OR "capital intensity" OR "capex")
