@@ -1,8 +1,0 @@
-"Choice";"Acronimo";"Descripcion";"Ejemplos"
-"Global";"GLB";"Encompasses the entire planet or global dynamics.";"Worldwide climate models, global supply chains."
-"Continental";"CONT";"Covers a specific continent completely.";"Europe, South America, Africa."
-"Multinational";"MULT";"Spans across several countries, but not a whole continent.";"Southern Cone, Nordic countries, NAFTA region."
-"National";"NAT";"Limited to a single country's borders.";"Chile, USA, Germany."
-"State/Province";"PROV";"Regional/Sub-national level within a single country.";"Santiago Metropolitan Region, California, Bavaria."
-"Local";"LOC";"Specific cities, municipalities, or micro-regions.";"City of Ñuñoa, a specific wind farm or solar plant."
-"No-Information";"NI";"The spatial scale is not specified or not applicable to the study.";"Theoretical papers, conceptual frameworks without case studies."

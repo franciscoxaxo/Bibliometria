@@ -1,7 +1,15 @@
 # ==============================================================================
 # APLICACIÓN SHINY: EXPLORADOR BIBLIOMÉTRICO, CURACIÓN Y NLP
-# Arquitectura Basada en Proyectos (PRISMA) - Versión UX Mejorada
+# Arquitectura Basada en Proyectos - Rutas Seguras
 # ==============================================================================
+
+paquetes_requeridos <- c("shiny", "bslib", "DT", "dplyr", "tidytext", 
+                         "ggplot2", "stringr", "httr", "jsonlite", "shinyFiles")
+paquetes_faltantes <- paquetes_requeridos[!(paquetes_requeridos %in% installed.packages()[,"Package"])]
+if(length(paquetes_faltantes)) {
+  message("Instalando paquetes necesarios. Esto puede tomar unos minutos...")
+  install.packages(paquetes_faltantes, dependencies = TRUE)
+}
 
 library(shiny)
 library(bslib)
@@ -14,7 +22,7 @@ library(httr)
 library(jsonlite)
 library(shinyFiles)
 
-# 1. CAPA DE BACK-END (Conexión Directa y Extracción Blindada)
+# 1. CAPA DE BACK-END
 # ------------------------------------------------------------------------------
 fetch_openalex_literature <- function(query, email, start_year, end_year) {
   url <- "https://api.openalex.org/works"
@@ -102,7 +110,7 @@ fetch_openalex_literature <- function(query, email, start_year, end_year) {
 # 2. INTERFAZ DE USUARIO (Front-end)
 # ------------------------------------------------------------------------------
 ui <- page_sidebar(
-  title = "Explorador y Curador Bibliométrico (PRISMA)",
+  title = "Explorador y Curador Bibliométrico",
   theme = bs_theme(version = 5, bootswatch = "flatly"), 
   
   sidebar = sidebar(
@@ -119,12 +127,10 @@ ui <- page_sidebar(
     
     hr(style="border-top: 1px dotted #ccc;"),
     
-    # NUEVO: Selector de Fuente de Datos
     radioButtons("data_source", "Fuente de Datos Inicial:", 
                  choices = c("Extraer desde API OpenAlex" = "api", 
                              "Importar CSV Externo" = "csv")),
     
-    # Menú Condicional si elige API
     conditionalPanel(
       condition = "input.data_source == 'api'",
       textInput("user_email", "Correo Institucional:", value = "tunombre@tuinstitucion.cl"),
@@ -133,7 +139,6 @@ ui <- page_sidebar(
       textAreaInput("search_query", "Ecuación Booleana:", value = '("renewable energy") AND ("merit-order effect")', rows = 3)
     ),
     
-    # Menú Condicional si elige CSV
     conditionalPanel(
       condition = "input.data_source == 'csv'",
       fileInput("upload_csv", "Subir archivo crudo o curado (.csv):", accept = c(".csv"), buttonLabel = "Explorar...")
@@ -214,9 +219,19 @@ ui <- page_sidebar(
 # ------------------------------------------------------------------------------
 server <- function(input, output, session) {
   
-  volumes <- getVolumes()
-  shinyDirChoose(input, "create_dir_btn", roots = volumes, session = session)
-  shinyDirChoose(input, "load_dir_btn", roots = volumes, session = session)
+  # ============================================================================
+  # SOLUCIÓN DE SEGURIDAD (RUTAS DINÁMICAS PARA SHINYFILES)
+  # ============================================================================
+  # Detectamos la ruta de Documentos/Home de forma segura (evita colapsos de permisos)
+  home_path <- normalizePath(path.expand("~"), winslash = "/", mustWork = FALSE)
+  
+  # Creamos los accesos directos poniendo 'Documentos' como prioridad número 1
+  safe_roots <- c(Documentos = home_path, shinyFiles::getVolumes()())
+  
+  shinyDirChoose(input, "create_dir_btn", roots = safe_roots, session = session)
+  shinyDirChoose(input, "load_dir_btn", roots = safe_roots, session = session)
+  
+  # ============================================================================
   
   active_project_path <- reactiveVal(NULL) 
   raw_data <- reactiveVal(NULL)
@@ -236,7 +251,7 @@ server <- function(input, output, session) {
     if (is.integer(input$create_dir_btn)) {
       return("Ninguna carpeta seleccionada")
     } else {
-      return(parseDirPath(volumes, input$create_dir_btn))
+      return(parseDirPath(safe_roots, input$create_dir_btn))
     }
   })
   
@@ -249,7 +264,7 @@ server <- function(input, output, session) {
     if (is.integer(input$load_dir_btn)) {
       return("Ninguna carpeta seleccionada")
     } else {
-      return(parseDirPath(volumes, input$load_dir_btn))
+      return(parseDirPath(safe_roots, input$load_dir_btn))
     }
   })
   
@@ -425,7 +440,6 @@ server <- function(input, output, session) {
     }
     showNotification(paste("Proyecto cargado desde:\n", proj_dir, "\n", status_msg, "\n", config_msg), type = "message", duration = 8)
   })
-  
   
   # ============================================================================
   # LÓGICA DE CAPA 1.5: SETEAR PREGUNTAS Y ALERTAS
@@ -605,7 +619,7 @@ server <- function(input, output, session) {
         textInput("cur_title", "Título del Paper:", value = row_data$title, width = "100%"),
         textAreaInput("cur_abstract", "Abstract / Resumen:", value = row_data$abstract_text, rows = 6, width = "100%"),
         textInput("cur_concepts", "Conceptos Detectados:", value = row_data$concepts, width = "100%"),
-        selectInput("cur_status", "Estado en la Revisión (PRISMA):", choices = c("Incluido", "Excluido"), selected = row_data$status),
+        selectInput("cur_status", "Estado en la Revisión:", choices = c("Incluido", "Excluido"), selected = row_data$status),
         dynamic_ui
       ),
       card_footer(
