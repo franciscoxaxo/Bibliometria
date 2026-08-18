@@ -1,0 +1,8 @@
+"Choice";"Acronimo";"Descripcion";"Ejemplos"
+"Econometric / Stat.";"ECO";"Statistical inference using historical data.";"OLS regression, Panel Data, Time-Series."
+"System Optimization";"OPT";"Bottom-up grid simulation and dispatch models.";"PLEXOS, TIMES, MARKAL, unit commitment models."
+"Machine Learning / AI";"ML";"Algorithms that learn from data without explicit rules.";"Neural Networks, Random Forest for price prediction."
+"Agent-Based Modeling";"ABM";"Simulating interactions of autonomous agents.";"Bidding behavior of power plants in a market."
+"Review / Qualitative";"REV";"Systematic reviews or conceptual frameworks.";"Literature reviews, policy analysis."
+"Other";"OTH";"Alternative analytical frameworks.";"Input-Output analysis, Game Theory."
+"No Information";"NI";"Methodology is not mentioned.";"Opinion pieces, abstracts without methods."

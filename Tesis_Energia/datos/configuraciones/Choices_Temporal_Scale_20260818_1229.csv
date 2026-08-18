@@ -1,0 +1,8 @@
+"Choice";"Acronimo";"Descripcion";"Ejemplos"
+"Long-term (>10 years)";"LT";"Decadal or multi-decadal analysis.";"2030-2050 transition scenarios, long-term investments."
+"Mid-term (1-10 years)";"MT";"Multi-year analysis.";"5-year historical price analysis, medium-term planning."
+"Short-term (4m-1y)";"ST";"Seasonal or annual scope.";"Intra-year seasonality, winter vs summer pricing."
+"Very Short-term (1-4m)";"VST";"Monthly or quarterly analysis.";"Quarter-ahead market studies."
+"Ultra Short-term (<1m)";"UST";"Daily, hourly or sub-hourly data.";"Day-ahead spot market, intraday dispatching."
+"Other";"OTH";"Different, highly specific or irregular periods.";"Event-based analysis (e.g., 3 days during a blackout)."
+"No Information";"NI";"No explicit timeframe provided.";"Methodological proposals without data."
