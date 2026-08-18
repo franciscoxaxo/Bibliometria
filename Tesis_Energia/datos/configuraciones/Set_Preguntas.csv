@@ -4,3 +4,7 @@
 "Study Objective";"The primary goal or purpose of the research being conducted.";"Multiple Choice";"MOD | MKT | MGT | RCA | MET | POL | OTH | NI"
 "Sector Affiliation";"The primary sector represented by the authors or the main stakeholder the study targets.";"Single Choice (Button)";"PUB | PRV | ACA"
 "Studied Variable";"The main dependent variable or economic phenomenon measured in the study.";"Single Choice (Button)";"WPR | VOL | CAN | MM | PROF | CAPX | CO2 | OTH | NI"
+"Analysis Method";"The primary analytical or quantitative technique used to process the data.";"Single Choice (Button)";"ECO | OPT | ML | ABM | REV | OTH | NI"
+"Studied Energy Source";"The specific renewable or conventional energy technology evaluated in the paper.";"Multiple Choice";"SOL | WND | HYD | BIO | VRE | CON | OTH | NI"
+"Main Contribution";"The core value proposition, unique contribution, or nature of the paper.";"Single Choice (Button)";"EMP | FUT | INN | POL | OTH | NI"
+"Studied Country";"Refers to the country where data is collected for research purposes.";"Text Field";"N/A (Texto Libre)"
